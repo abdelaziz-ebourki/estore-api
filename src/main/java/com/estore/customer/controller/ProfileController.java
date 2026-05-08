@@ -5,18 +5,16 @@ import com.estore.customer.entity.User;
 import com.estore.customer.repository.ProfileRepository;
 import com.estore.customer.repository.UserRepository;
 import com.estore.exception.ResourceNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/profile")
+@RequiredArgsConstructor
 public class ProfileController {
-    @Autowired
-    UserRepository userRepository;
-
-    @Autowired
-    ProfileRepository profileRepository;
+    private final UserRepository userRepository;
+    private final ProfileRepository profileRepository;
 
     @GetMapping
     public Profile getProfile(Authentication authentication) {

@@ -2,7 +2,7 @@ package com.estore.catalog.controller;
 
 import com.estore.catalog.dto.CategoryDto;
 import com.estore.catalog.service.CatalogService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -11,9 +11,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/categories")
+@RequiredArgsConstructor
 public class CategoryController {
-    @Autowired
-    CatalogService catalogService;
+    private final CatalogService catalogService;
 
     @GetMapping
     public List<CategoryDto> getAllCategories() {

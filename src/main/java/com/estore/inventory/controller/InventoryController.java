@@ -2,15 +2,15 @@ package com.estore.inventory.controller;
 
 import com.estore.inventory.entity.Inventory;
 import com.estore.inventory.service.InventoryService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/inventory")
+@RequiredArgsConstructor
 public class InventoryController {
-    @Autowired
-    InventoryService inventoryService;
+    private final InventoryService inventoryService;
 
     @GetMapping("/{productId}")
     public Inventory getInventory(@PathVariable Long productId) {

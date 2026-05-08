@@ -2,7 +2,7 @@ package com.estore.catalog.controller;
 
 import com.estore.catalog.dto.ProductDto;
 import com.estore.catalog.service.CatalogService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/products")
+@RequiredArgsConstructor
 public class ProductController {
-    @Autowired
-    CatalogService catalogService;
+    private final CatalogService catalogService;
 
     @GetMapping
     public Page<ProductDto> getAllProducts(Pageable pageable) {

@@ -1,17 +1,20 @@
--- SQL Schema for E-Store (MySQL)
-
-CREATE DATABASE IF NOT EXISTS estoredb;
-USE estoredb;
+-- Roles Table
+CREATE TABLE IF NOT EXISTS roles (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(20) NOT NULL UNIQUE
+);
 
 -- Users Table
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     email VARCHAR(255) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL
+    password VARCHAR(255) NOT NULL,
+    role_id BIGINT,
+    FOREIGN KEY (role_id) REFERENCES roles(id)
 );
 
 -- Profiles Table
-CREATE TABLE profiles (
+CREATE TABLE IF NOT EXISTS profiles (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     first_name VARCHAR(255),
     last_name VARCHAR(255),
@@ -23,48 +26,51 @@ CREATE TABLE profiles (
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
--- User Roles Table (ElementCollection)
-CREATE TABLE user_roles (
-    user_id BIGINT NOT NULL,
-    roles VARCHAR(255),
-    FOREIGN KEY (user_id) REFERENCES users(id)
-);
-
 -- Categories Table
-CREATE TABLE categories (
+CREATE TABLE IF NOT EXISTS categories (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL UNIQUE,
     description TEXT
 );
 
 -- Products Table
-CREATE TABLE products (
+CREATE TABLE IF NOT EXISTS products (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     description TEXT,
     price DOUBLE NOT NULL,
-    image_url VARCHAR(255),
     category_id BIGINT,
     FOREIGN KEY (category_id) REFERENCES categories(id)
 );
 
--- Inventories Table
-CREATE TABLE inventories (
+-- Product Images Table
+CREATE TABLE IF NOT EXISTS product_images (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    url VARCHAR(255) NOT NULL,
+    is_main BOOLEAN DEFAULT FALSE,
+    product_id BIGINT,
+    FOREIGN KEY (product_id) REFERENCES products(id)
+);
+
+-- Inventories Table
+CREATE TABLE IF NOT EXISTS inventories (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255),
+    location VARCHAR(255),
     quantity INT NOT NULL,
     product_id BIGINT,
     FOREIGN KEY (product_id) REFERENCES products(id)
 );
 
 -- Carts Table
-CREATE TABLE carts (
+CREATE TABLE IF NOT EXISTS carts (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     user_id BIGINT,
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
 -- Cart Items Table
-CREATE TABLE cart_items (
+CREATE TABLE IF NOT EXISTS cart_items (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     cart_id BIGINT,
     product_id BIGINT,
@@ -74,7 +80,7 @@ CREATE TABLE cart_items (
 );
 
 -- Orders Table
-CREATE TABLE orders (
+CREATE TABLE IF NOT EXISTS orders (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     user_id BIGINT,
     order_date DATETIME,
@@ -84,12 +90,12 @@ CREATE TABLE orders (
 );
 
 -- Order Items Table
-CREATE TABLE order_items (
+CREATE TABLE IF NOT EXISTS order_items (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     order_id BIGINT,
     product_id BIGINT,
     quantity INT NOT NULL,
-    price DOUBLE NOT NULL,
+    unit_price DOUBLE NOT NULL,
     FOREIGN KEY (order_id) REFERENCES orders(id),
     FOREIGN KEY (product_id) REFERENCES products(id)
 );

@@ -9,25 +9,19 @@ import com.estore.shopping.entity.Cart;
 import com.estore.shopping.entity.CartItem;
 import com.estore.shopping.repository.CartItemRepository;
 import com.estore.shopping.repository.CartRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class ShoppingService {
-    @Autowired
-    CartRepository cartRepository;
-
-    @Autowired
-    CartItemRepository cartItemRepository;
-
-    @Autowired
-    ProductRepository productRepository;
-
-    @Autowired
-    UserRepository userRepository;
+    private final CartRepository cartRepository;
+    private final CartItemRepository cartItemRepository;
+    private final ProductRepository productRepository;
+    private final UserRepository userRepository;
 
     public Cart getCartByUserId(Long userId) {
         return cartRepository.findByUserId(userId)

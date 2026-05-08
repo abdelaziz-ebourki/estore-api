@@ -9,7 +9,7 @@ import com.estore.catalog.repository.ProductRepository;
 import com.estore.inventory.entity.Inventory;
 import com.estore.inventory.repository.InventoryRepository;
 import com.estore.exception.ResourceNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -19,15 +19,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class CatalogService {
-    @Autowired
-    CategoryRepository categoryRepository;
-
-    @Autowired
-    ProductRepository productRepository;
-
-    @Autowired
-    InventoryRepository inventoryRepository;
+    private final CategoryRepository categoryRepository;
+    private final ProductRepository productRepository;
+    private final InventoryRepository inventoryRepository;
 
     // Category CRUD
     public List<CategoryDto> getAllCategories() {
@@ -77,7 +73,6 @@ public class CatalogService {
         product.setName(productDto.getName());
         product.setDescription(productDto.getDescription());
         product.setPrice(productDto.getPrice());
-        product.setImageUrl(productDto.getImageUrl());
         product.setCategory(category);
 
         Product savedProduct = productRepository.save(product);
@@ -105,7 +100,24 @@ public class CatalogService {
         dto.setName(product.getName());
         dto.setDescription(product.getDescription());
         dto.setPrice(product.getPrice());
-        dto.setImageUrl(product.getImageUrl());
+        
+        // Handle images
+        if (product.getImages() != null) {
+            dto.setAllImageUrls(product.getImages().stream()
+                    .map(com.estore.catalog.entity.ProductImage::getUrl)
+                    .collect(Collectors.toList()));
+            
+            product.getImages().stream()
+                    .filter(com.estore.catalog.entity.ProductImage::isMain)
+                    .findFirst()
+                    .ifPresent(img -> dto.setMainImageUrl(img.getUrl()));
+            
+            // Fallback if no main image is set
+            if (dto.getMainImageUrl() == null && !product.getImages().isEmpty()) {
+                dto.setMainImageUrl(product.getImages().get(0).getUrl());
+            }
+        }
+        
         dto.setCategoryId(product.getCategory().getId());
         dto.setStockQuantity(product.getInventory() != null ? product.getInventory().getQuantity() : 0);
         return dto;

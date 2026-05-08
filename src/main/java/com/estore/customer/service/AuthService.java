@@ -7,11 +7,12 @@ import com.estore.customer.dto.RegisterRequest;
 import com.estore.customer.entity.Profile;
 import com.estore.customer.entity.Role;
 import com.estore.customer.entity.User;
+import com.estore.customer.repository.RoleRepository;
 import com.estore.customer.repository.UserRepository;
 import com.estore.exception.BadRequestException;
 import com.estore.shopping.entity.Cart;
 import com.estore.shopping.repository.CartRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -20,27 +21,18 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class AuthService {
-    @Autowired
-    AuthenticationManager authenticationManager;
-
-    @Autowired
-    UserRepository userRepository;
-
-    @Autowired
-    CartRepository cartRepository;
-
-    @Autowired
-    PasswordEncoder encoder;
-
-    @Autowired
-    JwtUtils jwtUtils;
+    private final AuthenticationManager authenticationManager;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private final CartRepository cartRepository;
+    private final PasswordEncoder encoder;
+    private final JwtUtils jwtUtils;
 
     public AuthResponse authenticateUser(AuthRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
@@ -69,9 +61,9 @@ public class AuthService {
         user.setEmail(signUpRequest.getEmail());
         user.setPassword(encoder.encode(signUpRequest.getPassword()));
 
-        Set<Role> roles = new HashSet<>();
-        roles.add(Role.ROLE_USER);
-        user.setRoles(roles);
+        Role userRole = roleRepository.findByName("ROLE_USER")
+                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+        user.setRole(userRole);
 
         Profile profile = new Profile();
         profile.setFirstName(signUpRequest.getFirstName());

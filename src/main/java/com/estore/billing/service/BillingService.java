@@ -10,7 +10,7 @@ import com.estore.inventory.service.InventoryService;
 import com.estore.shopping.entity.Cart;
 import com.estore.shopping.entity.CartItem;
 import com.estore.shopping.service.ShoppingService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,18 +19,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class BillingService {
-    @Autowired
-    OrderRepository orderRepository;
-
-    @Autowired
-    ShoppingService shoppingService;
-
-    @Autowired
-    InventoryService inventoryService;
-
-    @Autowired
-    UserRepository userRepository;
+    private final OrderRepository orderRepository;
+    private final ShoppingService shoppingService;
+    private final InventoryService inventoryService;
+    private final UserRepository userRepository;
 
     @Transactional
     public Order placeOrder(Long userId) {
@@ -58,17 +52,16 @@ public class BillingService {
             orderItem.setOrder(order);
             orderItem.setProduct(cartItem.getProduct());
             orderItem.setQuantity(cartItem.getQuantity());
-            orderItem.setPrice(cartItem.getProduct().getPrice());
-            
+            orderItem.setUnitPrice(cartItem.getProduct().getPrice());
+
             // 3. Update Stock
             inventoryService.decreaseStock(cartItem.getProduct().getId(), cartItem.getQuantity());
-            
+
             return orderItem;
         }).collect(Collectors.toList());
 
         order.setItems(orderItems);
-        order.setTotalAmount(orderItems.stream().mapToDouble(i -> i.getPrice() * i.getQuantity()).sum());
-
+        order.setTotalAmount(orderItems.stream().mapToDouble(i -> i.getUnitPrice() * i.getQuantity()).sum());
         Order savedOrder = orderRepository.save(order);
 
         // 4. Empty Cart

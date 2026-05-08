@@ -3,14 +3,14 @@ package com.estore.inventory.service;
 import com.estore.inventory.entity.Inventory;
 import com.estore.inventory.repository.InventoryRepository;
 import com.estore.exception.ResourceNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@RequiredArgsConstructor
 public class InventoryService {
-    @Autowired
-    InventoryRepository inventoryRepository;
+    private final InventoryRepository inventoryRepository;
 
     public Inventory getInventoryByProductId(Long productId) {
         return inventoryRepository.findByProductId(productId)

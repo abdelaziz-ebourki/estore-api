@@ -5,18 +5,16 @@ import com.estore.customer.repository.UserRepository;
 import com.estore.exception.ResourceNotFoundException;
 import com.estore.shopping.entity.Cart;
 import com.estore.shopping.service.ShoppingService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/cart")
+@RequiredArgsConstructor
 public class CartController {
-    @Autowired
-    ShoppingService shoppingService;
-
-    @Autowired
-    UserRepository userRepository;
+    private final ShoppingService shoppingService;
+    private final UserRepository userRepository;
 
     @GetMapping
     public Cart getCart(Authentication authentication) {

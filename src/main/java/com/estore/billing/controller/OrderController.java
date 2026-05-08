@@ -5,7 +5,7 @@ import com.estore.billing.service.BillingService;
 import com.estore.customer.entity.User;
 import com.estore.customer.repository.UserRepository;
 import com.estore.exception.ResourceNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -15,12 +15,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/orders")
+@RequiredArgsConstructor
 public class OrderController {
-    @Autowired
-    BillingService billingService;
-
-    @Autowired
-    UserRepository userRepository;
+    private final BillingService billingService;
+    private final UserRepository userRepository;
 
     @PostMapping
     public ResponseEntity<Order> placeOrder(Authentication authentication) {

@@ -1,6 +1,7 @@
 package com.estore.catalog.dto;
 
 import lombok.Data;
+import java.util.List;
 
 @Data
 public class ProductDto {
@@ -8,7 +9,8 @@ public class ProductDto {
     private String name;
     private String description;
     private Double price;
-    private String imageUrl;
+    private String mainImageUrl;
+    private List<String> allImageUrls;
     private Long categoryId;
     private Integer stockQuantity;
 }

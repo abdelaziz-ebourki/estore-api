@@ -5,7 +5,7 @@ import com.estore.customer.repository.UserRepository;
 import com.estore.exception.ResourceNotFoundException;
 import com.estore.review.entity.Review;
 import com.estore.review.service.ReviewService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,12 +13,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/reviews")
+@RequiredArgsConstructor
 public class ReviewController {
-    @Autowired
-    ReviewService reviewService;
-
-    @Autowired
-    UserRepository userRepository;
+    private final ReviewService reviewService;
+    private final UserRepository userRepository;
 
     @GetMapping("/product/{productId}")
     public List<Review> getReviewsByProduct(@PathVariable Long productId) {
