@@ -28,6 +28,6 @@ public class OrderItem {
     private Product product;
 
     private Integer quantity;
-    
+
     private Double unitPrice; // Price at the time of order
 }
