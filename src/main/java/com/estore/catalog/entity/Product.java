@@ -27,7 +27,9 @@ public class Product {
     private String description;
 
     @Column(nullable = false)
-    private Double price;
+    private Double currentPrice;
+
+    private Double oldPrice;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProductImage> images = new ArrayList<>();

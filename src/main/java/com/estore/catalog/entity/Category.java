@@ -23,6 +23,8 @@ public class Category {
 
     private String description;
 
+    private String imageUrl;
+
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private List<Product> products;
 }

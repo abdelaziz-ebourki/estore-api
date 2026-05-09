@@ -30,7 +30,8 @@ CREATE TABLE IF NOT EXISTS profiles (
 CREATE TABLE IF NOT EXISTS categories (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL UNIQUE,
-    description TEXT
+    description TEXT,
+    image_url VARCHAR(255)
 );
 
 -- Products Table
@@ -38,7 +39,8 @@ CREATE TABLE IF NOT EXISTS products (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     description TEXT,
-    price DOUBLE NOT NULL,
+    current_price DOUBLE NOT NULL,
+    old_price DOUBLE,
     category_id BIGINT,
     FOREIGN KEY (category_id) REFERENCES categories(id)
 );

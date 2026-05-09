@@ -52,7 +52,7 @@ public class BillingService {
             orderItem.setOrder(order);
             orderItem.setProduct(cartItem.getProduct());
             orderItem.setQuantity(cartItem.getQuantity());
-            orderItem.setUnitPrice(cartItem.getProduct().getPrice());
+            orderItem.setUnitPrice(cartItem.getProduct().getCurrentPrice());
 
             // 3. Update Stock
             inventoryService.decreaseStock(cartItem.getProduct().getId(), cartItem.getQuantity());

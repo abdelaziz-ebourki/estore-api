@@ -3,8 +3,8 @@ INSERT INTO roles (name) VALUES ('ROLE_ADMIN');
 INSERT INTO roles (name) VALUES ('ROLE_USER');
 
 -- Seed Categories
-INSERT INTO categories (name, description) VALUES ('Electronics', 'Gadgets and devices');
-INSERT INTO categories (name, description) VALUES ('Books', 'Various genres of books');
+INSERT INTO categories (name, description, image_url) VALUES ('Electronics', 'Gadgets and devices', 'https://images.unsplash.com/photo-1498049794561-7780e7231661');
+INSERT INTO categories (name, description, image_url) VALUES ('Books', 'Various genres of books', 'https://images.unsplash.com/photo-1524995997946-a1c2e315a42f');
 
 -- Seed Users (Passwords: admin123, user123)
 -- Role IDs: 1 (ADMIN), 2 (USER)
@@ -20,8 +20,8 @@ INSERT INTO carts (user_id) VALUES (1);
 INSERT INTO carts (user_id) VALUES (2);
 
 -- Seed Products
-INSERT INTO products (name, description, price, category_id) VALUES ('Laptop Pro', 'High performance laptop', 1200.0, 1);
-INSERT INTO products (name, description, price, category_id) VALUES ('Java Programming', 'Learn Java from scratch', 45.0, 2);
+INSERT INTO products (name, description, current_price, old_price, category_id) VALUES ('Laptop Pro', 'High performance laptop', 1200.0, 1500.0, 1);
+INSERT INTO products (name, description, current_price, old_price, category_id) VALUES ('Java Programming', 'Learn Java from scratch', 45.0, 60.0, 2);
 
 -- Seed Product Images
 -- Laptop Pro Images

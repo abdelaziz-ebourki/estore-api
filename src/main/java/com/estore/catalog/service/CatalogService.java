@@ -42,6 +42,7 @@ public class CatalogService {
         Category category = new Category();
         category.setName(categoryDto.getName());
         category.setDescription(categoryDto.getDescription());
+        category.setImageUrl(categoryDto.getImageUrl());
         return convertToCategoryDto(categoryRepository.save(category));
     }
 
@@ -72,7 +73,8 @@ public class CatalogService {
         Product product = new Product();
         product.setName(productDto.getName());
         product.setDescription(productDto.getDescription());
-        product.setPrice(productDto.getPrice());
+        product.setCurrentPrice(productDto.getCurrentPrice());
+        product.setOldPrice(productDto.getOldPrice());
         product.setCategory(category);
 
         Product savedProduct = productRepository.save(product);
@@ -91,6 +93,7 @@ public class CatalogService {
         dto.setId(category.getId());
         dto.setName(category.getName());
         dto.setDescription(category.getDescription());
+        dto.setImageUrl(category.getImageUrl());
         return dto;
     }
 
@@ -99,7 +102,8 @@ public class CatalogService {
         dto.setId(product.getId());
         dto.setName(product.getName());
         dto.setDescription(product.getDescription());
-        dto.setPrice(product.getPrice());
+        dto.setCurrentPrice(product.getCurrentPrice());
+        dto.setOldPrice(product.getOldPrice());
         
         // Handle images
         if (product.getImages() != null) {
