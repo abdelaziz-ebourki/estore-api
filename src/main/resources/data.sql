@@ -25,11 +25,12 @@ INSERT IGNORE INTO brands (name, logo_url) VALUES ('Bose', 'https://example.com/
 INSERT IGNORE INTO brands (name, logo_url) VALUES ('JBL', 'https://example.com/logos/jbl.png');
 
 -- Seed Users (Passwords: admin123, user123, password123)
-INSERT IGNORE INTO users (email, password, role_id, status) VALUES ('admin@estore.com', '$2a$10$8.UnVuG9HHgffUDAlk8qfOuVGkqRzgVymGe07xd00DMxs.TVuHOn2', 1, 'active');
-INSERT IGNORE INTO users (email, password, role_id, status) VALUES ('user@estore.com', '$2a$10$7Pmq7G0XmH3wG6qK2o.8GuX5iG5l1fXpLhL6p.O7t/Y3rW8Y8y/mS', 2, 'active');
-INSERT IGNORE INTO users (email, password, role_id, status) VALUES ('jean.dupont@example.com', '$2a$10$7Pmq7G0XmH3wG6qK2o.8GuX5iG5l1fXpLhL6p.O7t/Y3rW8Y8y/mS', 2, 'active');
-INSERT IGNORE INTO users (email, password, role_id, status) VALUES ('marie.curie@example.com', '$2a$10$7Pmq7G0XmH3wG6qK2o.8GuX5iG5l1fXpLhL6p.O7t/Y3rW8Y8y/mS', 2, 'active');
-INSERT IGNORE INTO users (email, password, role_id, status) VALUES ('lucas.b@example.com', '$2a$10$7Pmq7G0XmH3wG6qK2o.8GuX5iG5l1fXpLhL6p.O7t/Y3rW8Y8y/mS', 2, 'inactive');
+-- Passwords: admin123, user123 (same for all user accounts)
+INSERT IGNORE INTO users (email, password, role_id, status) VALUES ('admin@estore.com', '$2b$10$vhMKlIMT0cl3iIMwMl2QyeXLXCP15tpcL8I7VvsFE.aGbTNbu0jty', 1, 'active');
+INSERT IGNORE INTO users (email, password, role_id, status) VALUES ('user@estore.com', '$2b$10$Xnz5q3XIMRu8f1C5BtBY/eBiI0n4Ojj5OfDBCe04M9AIUZX8rI9CO', 2, 'active');
+INSERT IGNORE INTO users (email, password, role_id, status) VALUES ('jean.dupont@example.com', '$2b$10$Xnz5q3XIMRu8f1C5BtBY/eBiI0n4Ojj5OfDBCe04M9AIUZX8rI9CO', 2, 'active');
+INSERT IGNORE INTO users (email, password, role_id, status) VALUES ('marie.curie@example.com', '$2b$10$Xnz5q3XIMRu8f1C5BtBY/eBiI0n4Ojj5OfDBCe04M9AIUZX8rI9CO', 2, 'active');
+INSERT IGNORE INTO users (email, password, role_id, status) VALUES ('lucas.b@example.com', '$2b$10$Xnz5q3XIMRu8f1C5BtBY/eBiI0n4Ojj5OfDBCe04M9AIUZX8rI9CO', 2, 'inactive');
 
 -- Seed Profiles
 INSERT IGNORE INTO profiles (first_name, last_name, user_id) VALUES ('Admin', 'User', 1);
@@ -139,15 +140,15 @@ INSERT IGNORE INTO inventories (name, location, quantity, product_id) VALUES ('A
 
 -- Seed Orders (for users with history)
 -- Order 1: Jean Dupont (user id 3)
-INSERT IGNORE INTO orders (user_id, customer_name, order_date, total_amount, status, created_at, updated_at) VALUES (3, 'Jean Dupont', NOW() - INTERVAL 7 DAY, 2499.0, 'delivered', NOW() - INTERVAL 7 DAY, NOW() - INTERVAL 5 DAY);
+INSERT IGNORE INTO orders (user_id, customer_name, order_date, total_amount, status, created_at, updated_at) VALUES (3, 'Jean Dupont', '2026-05-11 10:00:00', 2499.0, 'delivered', '2026-05-11 10:00:00', '2026-05-13 10:00:00');
 -- Order 2: Jean Dupont
-INSERT IGNORE INTO orders (user_id, customer_name, order_date, total_amount, status, created_at, updated_at) VALUES (3, 'Jean Dupont', NOW() - INTERVAL 14 DAY, 1399.0, 'shipped', NOW() - INTERVAL 14 DAY, NOW() - INTERVAL 10 DAY);
+INSERT IGNORE INTO orders (user_id, customer_name, order_date, total_amount, status, created_at, updated_at) VALUES (3, 'Jean Dupont', '2026-05-04 10:00:00', 1399.0, 'shipped', '2026-05-04 10:00:00', '2026-05-08 10:00:00');
 -- Order 3: Marie Curie (user id 4)
-INSERT IGNORE INTO orders (user_id, customer_name, order_date, total_amount, status, created_at, updated_at) VALUES (4, 'Marie Curie', NOW() - INTERVAL 3 DAY, 1999.0, 'processing', NOW() - INTERVAL 3 DAY, NOW() - INTERVAL 2 DAY);
+INSERT IGNORE INTO orders (user_id, customer_name, order_date, total_amount, status, created_at, updated_at) VALUES (4, 'Marie Curie', '2026-05-15 10:00:00', 1999.0, 'processing', '2026-05-15 10:00:00', '2026-05-16 10:00:00');
 -- Order 4: Marie Curie
-INSERT IGNORE INTO orders (user_id, customer_name, order_date, total_amount, status, created_at, updated_at) VALUES (4, 'Marie Curie', NOW() - INTERVAL 30 DAY, 1299.0, 'delivered', NOW() - INTERVAL 30 DAY, NOW() - INTERVAL 25 DAY);
+INSERT IGNORE INTO orders (user_id, customer_name, order_date, total_amount, status, created_at, updated_at) VALUES (4, 'Marie Curie', '2026-04-18 10:00:00', 1299.0, 'delivered', '2026-04-18 10:00:00', '2026-04-23 10:00:00');
 -- Order 5: Test User (user id 2)
-INSERT IGNORE INTO orders (user_id, customer_name, order_date, total_amount, status, created_at, updated_at) VALUES (2, 'Test User', NOW() - INTERVAL 1 DAY, 449.0, 'pending', NOW() - INTERVAL 1 DAY, NOW() - INTERVAL 1 DAY);
+INSERT IGNORE INTO orders (user_id, customer_name, order_date, total_amount, status, created_at, updated_at) VALUES (2, 'Test User', '2026-05-17 10:00:00', 449.0, 'pending', '2026-05-17 10:00:00', '2026-05-17 10:00:00');
 
 -- Seed Order Items
 -- Order 1 items: MacBook Pro + Sony WH-1000XM5
