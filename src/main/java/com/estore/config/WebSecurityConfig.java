@@ -30,10 +30,8 @@ public class WebSecurityConfig {
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-
         authProvider.setUserDetailsService(userDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder());
-
         return authProvider;
     }
 
@@ -55,18 +53,16 @@ public class WebSecurityConfig {
                         auth.requestMatchers("/api/auth/**").permitAll()
                                 .requestMatchers("/api/products/**").permitAll()
                                 .requestMatchers("/api/categories/**").permitAll()
+                                .requestMatchers("/api/newsletter/**").permitAll()
+                                .requestMatchers("/api/shipping/**").permitAll()
+                                .requestMatchers("/api/upload/**").permitAll()
                                 .requestMatchers("/h2-console/**").permitAll()
                                 .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                                 .anyRequest().authenticated()
                 );
-
         http.authenticationProvider(authenticationProvider());
-
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-        
-        // For H2 console
         http.headers(headers -> headers.frameOptions(frame -> frame.sameOrigin()));
-
         return http.build();
     }
 }
